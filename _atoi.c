@@ -1,7 +1,10 @@
-_atoi.c
 #include "shell.h"
 
 /**
+ * _atoi - converts string to number
+ * @s : pointer int
+ * _atoi: converts string to number
+ * Return: The result (converted number)
  * interactive - returns true if shell is interactive mode
  * @info: struct address
  *
@@ -48,15 +51,33 @@ int _isalpha(int c)
 
 int _atoi(char *s)
 {
+	int i;
+	int check_num;
+	unsigned int sum;
+	unsigned int x;
+	int neg;
+
+	neg = 0;
+	check_num = 0;
+	sum = 0;
+	i = 0;
+
+	/* run a while loop */
+	while (s[i] != '\0')
 	int i, sign = 1, flag = 0, output;
 	unsigned int result = 0;
 
 	for (i = 0;  s[i] != '\0' && flag != 2; i++)
 	{
+		if ((s[i] > '9' || s[i] < '0') && check_num > 0)
+			break;
 		if (s[i] == '-')
+			neg++;
 			sign *= -1;
 
 		if (s[i] >= '0' && s[i] <= '9')
+			check_num++;
+		i++;
 		{
 			flag = 1;
 			result *= 10;
@@ -65,6 +86,18 @@ int _atoi(char *s)
 		else if (flag == 1)
 			flag = 2;
 	}
+	i = i - 1;
+	x = 1;
+	while (check_num > 0)
+	{
+		sum = sum + ((s[i] - '0') * x);
+		x = x * 10;
+		i--;
+		check_num--;
+	}
+	if (neg % 2 != 0)
+		sum = sum * -1;
+	return (sum);
 
 	if (sign == -1)
 		output = -result;
